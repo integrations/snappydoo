@@ -1,0 +1,40 @@
+{
+  "name": "snappydoo",
+  "bin": "./index.js",
+  "version": "1.0.0",
+  "description": "snappydoo or snappydonot, that is the question",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/github-slack/snappydoo.git"
+  },
+  "keywords": [
+    "slack",
+    "message",
+    "builder",
+    "jest",
+    "snapshot",
+    "testing",
+    "visual",
+    "screenshot"
+  ],
+  "author": "Wilhelm Klopp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/github-slack/snappydoo/issues"
+  },
+  "homepage": "https://github.com/github-slack/snappydoo#readme",
+  "dependencies": {
+    "commander": "^2.12.2",
+    "fs-path": "0.0.23",
+    "named-regexp": "^0.1.1",
+    "puppeteer": "^0.13.0",
+    "recursive-readdir": "^2.2.1",
+    "relaxed-json": "^1.0.1"
+  },
+  "devDependencies": {
+    "standard": "^10.0.3"
+  }
+}
