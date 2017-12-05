@@ -8,8 +8,12 @@ const { named } = require('named-regexp') // replace me with regex in standard l
 const RJSON = require('relaxed-json')
 const recursiveRead = require('recursive-readdir')
 const { promisify } = require('util')
+const Bottleneck = require('bottleneck')
 
 const readFile = promisify(fs.readFile)
+process.on('unhandledRejection', r => console.log(r))
+const limiter = new Bottleneck(4)
+const start = new Date()
 
 program
   .option('-i, --in [path]', 'Input Folder containing Jest Snapshots')
@@ -17,38 +21,65 @@ program
   .parse(process.argv)
 
 let excludeList = []
+let fileCreationCounter = 0
 
-async function getMessageBuilderImage (page, message) {
-  await page.goto(`https://api.slack.com/docs/messages/builder?msg=${encodeURIComponent(message)}`)
-  // not sure why navigation event doesn't fire
-  // await page.waitForNavigation({ waitUntil: 'load' });
-  await page.waitForSelector('#message_loading_indicator', { hidden: true, timeout: 30000 })
+async function getandSaveScreenshot (snapshots, snapshotFileName, browser) {
+  async function getMessageBuilderImage (page, message) {
+    await page.goto(`https://api.slack.com/docs/messages/builder?msg=${encodeURIComponent(message)}`)
+    // not sure why navigation event doesn't fire
+    // await page.waitForNavigation({ waitUntil: 'load' });
+    await page.waitForSelector('#message_loading_indicator', { hidden: true, timeout: 30000 })
 
-  // https://github.com/GoogleChrome/puppeteer/issues/306#issuecomment-322929342
-  async function screenshotDOMElement (selector, padding = 0) {
-    const rect = await page.evaluate((selector) => {
-      const element = document.querySelector(selector)
-      const { x, y, width, height } = element.getBoundingClientRect()
-      return { left: x, top: y, width, height, id: element.id }
-    }, selector)
+    // https://github.com/GoogleChrome/puppeteer/issues/306#issuecomment-322929342
+    async function screenshotDOMElement (selector, padding = 0) {
+      const rect = await page.evaluate((selector) => {
+        const element = document.querySelector(selector)
+        const { x, y, width, height } = element.getBoundingClientRect()
+        return { left: x, top: y, width, height, id: element.id }
+      }, selector)
 
-    return page.screenshot({
-      clip: {
-        x: rect.left - padding,
-        y: rect.top - padding,
-        width: rect.width + (padding * 2),
-        height: rect.height + (padding * 2)
-      }
-    })
+      return page.screenshot({
+        clip: {
+          x: rect.left - padding,
+          y: rect.top - padding,
+          width: rect.width + (padding * 2),
+          height: rect.height + (padding * 2)
+        }
+      })
+    }
+    return screenshotDOMElement('#msgs_div')
   }
 
-  return screenshotDOMElement('#msgs_div')
+  const page = await browser.newPage()
+  page.setViewport({ width: 1000, height: 600, deviceScaleFactor: 2 })
+  let renderedImage
+  try {
+    renderedImage = await getMessageBuilderImage(
+      page,
+      JSON.stringify(snapshots[snapshotFileName])
+    )
+  } catch (e) {
+    // retry once
+    console.log(e)
+    console.log(`Retrying ${snapshotFileName}`)
+    renderedImage = await getMessageBuilderImage(
+      page,
+      JSON.stringify(snapshots[snapshotFileName])
+    )
+  }
+  try {
+    await fsPath.writeFile(snapshotFileName, renderedImage, () => {})
+    fileCreationCounter += 1
+    console.log(`Created ${snapshotFileName}`)
+  } catch (e) {
+    throw new Error(`Failed to create file: ${e}`)
+  }
+  await page.close()
 }
 
 async function main () {
   // load config from package.json
   let packageJSON
-  console.log(path.join(process.cwd(), 'package.json'))
   try {
     packageJSON = await readFile(path.join(process.cwd(), 'package.json'))
   } catch (e) {
@@ -123,35 +154,19 @@ async function main () {
 
   console.log(`Fetching ${Object.keys(snapshots).length} screenshot${Object.keys(snapshots).length === 1 ? '' : 's'} from message builder`)
   const browser = await puppeteer.launch({ headless: true })
-  const page = await browser.newPage()
-  page.setViewport({ width: 1000, height: 600, deviceScaleFactor: 2 })
-  let fileCreationCounter = 0
-  for (const snapshotFileName of Object.keys(snapshots)) {
-    let renderedImage
-    try {
-      renderedImage = await getMessageBuilderImage(
-        page,
-        JSON.stringify(snapshots[snapshotFileName])
+  // for (const snapshotFileName of Object.keys(snapshots)) {
+  await Promise.all(
+    Object.keys(snapshots).map(async (snapshotFileName) => {
+      await limiter.schedule(
+        getandSaveScreenshot,
+        snapshots,
+        snapshotFileName,
+        browser
       )
-    } catch (e) {
-      // retry once
-      console.log(e)
-      console.log(`Retrying ${snapshotFileName}`)
-      renderedImage = await getMessageBuilderImage(
-        page,
-        JSON.stringify(snapshots[snapshotFileName])
-      )
-    }
-    try {
-      await fsPath.writeFile(snapshotFileName, renderedImage, () => {})
-      fileCreationCounter += 1
-      console.log(`Created ${snapshotFileName}`)
-    } catch (e) {
-      throw new Error(`Failed to create file: ${e}`)
-    }
-  }
+    })
+  )
   await browser.close()
-  console.log(`Message builder fetching complete. Created ${fileCreationCounter} file${fileCreationCounter === 1 ? '' : 's'}`)
+  console.log(`Snappydoo done in ${(new Date() - start) / 1000}s. Created ${fileCreationCounter} file${fileCreationCounter === 1 ? '' : 's'}`)
 }
 
 main()

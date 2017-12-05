@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/github-slack/snappydoo#readme",
   "dependencies": {
+    "bottleneck": "^1.16.0",
     "commander": "^2.12.2",
     "fs-path": "0.0.23",
     "named-regexp": "^0.1.1",
