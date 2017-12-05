@@ -12,7 +12,7 @@ const Bottleneck = require('bottleneck')
 
 const readFile = promisify(fs.readFile)
 process.on('unhandledRejection', r => console.log(r))
-const limiter = new Bottleneck(4)
+const limiter = new Bottleneck(2)
 const start = new Date()
 
 program
@@ -100,6 +100,9 @@ async function main () {
     }
     if (snappydooConfig.exclude) {
       excludeList = snappydooConfig.exclude
+    }
+    if (snappydooConfig.limit) {
+      limiter.changeSettings(snappydooConfig.limit)
     }
   }
 
