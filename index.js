@@ -9,8 +9,10 @@ const RJSON = require('relaxed-json')
 const recursiveRead = require('recursive-readdir')
 const { promisify } = require('util')
 const Bottleneck = require('bottleneck')
+const childProcess = require('child_process')
 
 const readFile = promisify(fs.readFile)
+const exec = promisify(childProcess.exec)
 process.on('unhandledRejection', r => console.log(r))
 const limiter = new Bottleneck(2)
 const start = new Date()
@@ -18,6 +20,7 @@ const start = new Date()
 program
   .option('-i, --in [path]', 'Input Folder containing Jest Snapshots')
   .option('-o, --out [path]', 'Output Folder that images will be saved to')
+  .option('-a, --all', 'Run snappydoo for all snapshots, not just modified ones')
   .parse(process.argv)
 
 let excludeList = []
@@ -118,10 +121,17 @@ async function main () {
     console.error('Error: Please specify both an output and an input path.')
     process.exit(1)
   }
-
+  const { stdout, stderr } = await exec('git ls-files --modified')
+  if (stderr) {
+    throw new Error(`Couldn't run 'git ls-files --modified' ${stderr}`)
+  }
+  const modifiedFiles = stdout.split('\n')
   let snapshotFiles = await recursiveRead(path.join(process.cwd(), inputPath))
   snapshotFiles = snapshotFiles.filter(file => {
-    return path.extname(file) === '.snap'
+    return (
+      path.extname(file) === '.snap' &&
+      program.all ? true : modifiedFiles.indexOf(file.replace(`${process.cwd()}/`, '')) > -1
+    )
   })
   snapshotFiles = snapshotFiles.map(file => {
     return file.replace(`${process.cwd()}/${inputPath}/`, '')
