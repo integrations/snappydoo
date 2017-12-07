@@ -30,7 +30,6 @@
     "bottleneck": "^1.16.0",
     "commander": "^2.12.2",
     "fs-path": "0.0.23",
-    "named-regexp": "^0.1.1",
     "puppeteer": "^0.13.0",
     "recursive-readdir": "^2.2.1",
     "relaxed-json": "^1.0.1"
