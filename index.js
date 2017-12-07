@@ -121,9 +121,9 @@ async function main () {
     console.error('Error: Please specify both an output and an input path.')
     process.exit(1)
   }
-  const { stdout, stderr } = await exec('git ls-files --modified')
+  const { stdout, stderr } = await exec('git ls-files --modified --others --exclude-standard')
   if (stderr) {
-    throw new Error(`Couldn't run 'git ls-files --modified' ${stderr}`)
+    throw new Error(`Couldn't run 'git ls-files' ${stderr}`)
   }
   const modifiedFiles = stdout.split('\n')
   let snapshotFiles = await recursiveRead(path.join(process.cwd(), inputPath))
