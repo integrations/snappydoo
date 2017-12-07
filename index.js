@@ -4,7 +4,6 @@ const puppeteer = require('puppeteer')
 const fsPath = require('fs-path')
 const fs = require('fs')
 const path = require('path')
-const { named } = require('named-regexp') // replace me with regex in standard lib
 const RJSON = require('relaxed-json')
 const recursiveRead = require('recursive-readdir')
 const { promisify } = require('util')
@@ -141,9 +140,9 @@ async function main () {
   // extraxt individual snapshots from snapshot files
   snapshotFiles.forEach(async (file) => {
     // eslint-disable-next-line
-    const match = named(new RegExp('^(:<class>[A-Za-z\/]+).test\.js\.snap')).exec(file)
+    const match = new RegExp('(.*)\/?__snapshots__\/([A-Za-z\/]+).test\.js\.snap').exec(file)
     if (match) {
-      if (excludeList.indexOf(match.captures.class[0]) > -1) {
+      if (excludeList.indexOf(match[2]) > -1) {
         // if snapshot is on black list, don't process any further
         return
       }
@@ -159,7 +158,7 @@ async function main () {
           message = { attachments: [message] }
         }
 
-        const folderName = `${outputPath}/${match.captures.class[0]}`
+        const folderName = `${outputPath}/${match[1]}/${match[2]}`
         snapshots[`${folderName}/${snapshotName}.png`] = message
       })
     }
