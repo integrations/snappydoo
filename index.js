@@ -140,7 +140,7 @@ async function main () {
   // extraxt individual snapshots from snapshot files
   snapshotFiles.forEach(async (file) => {
     // eslint-disable-next-line
-    const match = new RegExp('(.*)\/?__snapshots__\/([A-Za-z\/]+).test\.(js|ts)\.snap').exec(file)
+    const match = new RegExp('(.*)\/?__snapshots__\/(.*).test\.(js|ts)\.snap').exec(file)
     if (match) {
       if (excludeList.indexOf(match[2]) > -1) {
         // if snapshot is on black list, don't process any further
