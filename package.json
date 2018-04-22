@@ -1,9 +1,11 @@
 {
   "name": "snappydoo",
-  "bin": "./index.js",
+  "bin": "./old.js",
   "version": "1.0.0",
   "description": "snappydoo or snappydonot, that is the question",
   "scripts": {
+    "dev": "nodemon --exec \"npm start\"",
+    "start": "probot run ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,14 +29,26 @@
   },
   "homepage": "https://github.com/github-slack/snappydoo#readme",
   "dependencies": {
+    "base-64": "^0.1.0",
     "bottleneck": "^1.16.0",
     "commander": "^2.12.2",
+    "eval": "^0.1.2",
     "fs-path": "0.0.23",
+    "probot": "^6.1.0",
     "puppeteer": "^0.13.0",
     "recursive-readdir": "^2.2.1",
     "relaxed-json": "^1.0.1"
   },
   "devDependencies": {
+    "jest": "^22.4.3",
+    "nodemon": "^1.17.3",
+    "prettier": "1.12.1",
+    "smee-client": "^1.0.1",
     "standard": "^10.0.3"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
   }
 }

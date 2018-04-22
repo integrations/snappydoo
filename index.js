@@ -1,40 +1,47 @@
-#!/usr/bin/env node
-const program = require('commander')
-const puppeteer = require('puppeteer')
-const fsPath = require('fs-path')
-const fs = require('fs')
+const base64 = require('base-64')
 const path = require('path')
+const _eval = require('eval')
 const RJSON = require('relaxed-json')
-const recursiveRead = require('recursive-readdir')
-const { promisify } = require('util')
+const puppeteer = require('puppeteer')
 const Bottleneck = require('bottleneck')
-const childProcess = require('child_process')
 
-const readFile = promisify(fs.readFile)
-const exec = promisify(childProcess.exec)
-process.on('unhandledRejection', r => console.log(r))
 const limiter = new Bottleneck(2)
-const start = new Date()
 
-program
-  .option('-i, --in [path]', 'Input Folder containing Jest Snapshots')
-  .option('-o, --out [path]', 'Output Folder that images will be saved to')
-  .option('-a, --all', 'Run snappydoo for all snapshots, not just modified ones')
-  .parse(process.argv)
+function getModifiedSnapshotFiles(compareData, settings) {
+  const files = compareData.files
+    .filter(file => file.filename.startsWith(settings.in))
+    .filter(file => path.extname(file.filename) === '.snap')
+    .filter(file => {
+      // Check that snapshot file is not on excluded list
+      const match = new RegExp(
+        '(.*)/?__snapshots__/(.*).test.(js|ts).snap'
+      ).exec(file.filename)
+      return (
+        settings.exclude
+          .map(i => i.toLowerCase())
+          .indexOf(match[2].toLowerCase()) === -1
+      )
+    })
+  return files
+}
 
-let excludeList = []
-let fileCreationCounter = 0
-
-async function getandSaveScreenshot (snapshots, snapshotFileName, browser) {
-  async function getMessageBuilderImage (page, message) {
-    await page.goto(`https://api.slack.com/docs/messages/builder?msg=${encodeURIComponent(message)}`)
+async function getScreenshot(snapshots, snapshotFileName, browser) {
+  async function getMessageBuilderImage(page, message) {
+    await page.goto(
+      `https://api.slack.com/docs/messages/builder?msg=${encodeURIComponent(
+        message
+      )}`
+    )
     // not sure why navigation event doesn't fire
     // await page.waitForNavigation({ waitUntil: 'load' });
-    await page.waitForSelector('#message_loading_indicator', { hidden: true, timeout: 30000 })
+    await page.waitForSelector('#message_loading_indicator', {
+      hidden: true,
+      timeout: 30000
+    })
 
     // https://github.com/GoogleChrome/puppeteer/issues/306#issuecomment-322929342
-    async function screenshotDOMElement (selector, padding = 0) {
-      const rect = await page.evaluate((selector) => {
+    async function screenshotDOMElement(selector, padding = 0) {
+      const rect = await page.evaluate(selector => {
         const element = document.querySelector(selector)
         const { x, y, width, height } = element.getBoundingClientRect()
         return { left: x, top: y, width, height, id: element.id }
@@ -44,8 +51,8 @@ async function getandSaveScreenshot (snapshots, snapshotFileName, browser) {
         clip: {
           x: rect.left - padding,
           y: rect.top - padding,
-          width: rect.width + (padding * 2),
-          height: rect.height + (padding * 2)
+          width: rect.width + padding * 2,
+          height: rect.height + padding * 2
         }
       })
     }
@@ -69,116 +76,147 @@ async function getandSaveScreenshot (snapshots, snapshotFileName, browser) {
       JSON.stringify(snapshots[snapshotFileName])
     )
   }
-  try {
-    await fsPath.writeFile(snapshotFileName, renderedImage, () => {})
-    fileCreationCounter += 1
-    console.log(`Created ${snapshotFileName}`)
-  } catch (e) {
-    throw new Error(`Failed to create file: ${e}`)
-  }
   await page.close()
+  return { snapshotFileName, renderedImage: renderedImage.toString('base64') }
 }
 
-async function main () {
-  // load config from package.json
-  let packageJSON
-  try {
-    packageJSON = await readFile(path.join(process.cwd(), 'package.json'))
-  } catch (e) {
-    console.error(
-      'Cannot find package.json. Make sure you run snappydoo from the root of your project',
-      e
-    )
-  }
-  const snappydooConfig = JSON.parse(packageJSON).snappydoo
-  let inputPath
-  let outputPath
-  if (snappydooConfig) {
-    if (snappydooConfig.out) {
-      outputPath = snappydooConfig.out
-    }
-    if (snappydooConfig.in) {
-      inputPath = snappydooConfig.in
-    }
-    if (snappydooConfig.exclude) {
-      excludeList = snappydooConfig.exclude
-    }
-    if (snappydooConfig.limit) {
-      limiter.changeSettings(snappydooConfig.limit)
+function appHasCommittedToBranchAlready(compareData) {
+  console.log(compareData.commits.length)
+  for (const commit of compareData.commits) {
+    if (commit.committer.id.toString() === process.env.ACTOR_ID) {
+      return true
     }
   }
+  return false
+}
 
-  // command line args take precedence over package.json
-  if (program.in) {
-    inputPath = program.in
-  }
-  if (program.out) {
-    outputPath = program.out
-  }
+module.exports = app => {
+  app.on(['pull_request.opened', 'pull_request.synchronize'], async context => {
+    if (context.payload.sender.id.toString() === process.env.ACTOR_ID) {
+      return
+    }
+    const { head, base } = context.payload.pull_request
+    let compareData = (await context.github.repos.compareCommits({
+      ...context.repo(),
+      base: base.ref,
+      head: head.ref
+    })).data
 
-  if (!outputPath || !inputPath) {
-    console.error('Error: Please specify both an output and an input path.')
-    process.exit(1)
-  }
-  const { stdout, stderr } = await exec('git ls-files --modified --others --exclude-standard')
-  if (stderr) {
-    throw new Error(`Couldn't run 'git ls-files' ${stderr}`)
-  }
-  const modifiedFiles = stdout.split('\n')
-  let snapshotFiles = await recursiveRead(path.join(process.cwd(), inputPath))
-  snapshotFiles = snapshotFiles.filter(file => {
-    return (
-      path.extname(file) === '.snap' &&
-      program.all ? true : modifiedFiles.indexOf(file.replace(`${process.cwd()}/`, '')) > -1
-    )
-  })
-  snapshotFiles = snapshotFiles.map(file => {
-    return file.replace(`${process.cwd()}/${inputPath}/`, '')
-  })
-
-  const snapshots = {}
-  // extraxt individual snapshots from snapshot files
-  snapshotFiles.forEach(async (file) => {
-    // eslint-disable-next-line
-    const match = new RegExp('(.*)\/?__snapshots__\/(.*).test\.(js|ts)\.snap').exec(file)
-    if (match) {
-      if (excludeList.indexOf(match[2]) > -1) {
-        // if snapshot is on black list, don't process any further
+    if (appHasCommittedToBranchAlready(compareData)) {
+      console.log('app has commited already')
+      if (
+        compareData.commits.reverse()[0].committer.id.toString() ===
+        process.env.ACTOR_ID
+      ) {
+        // latest commit is by this app, so nothing to do here
         return
       }
 
-      const snapshotsInFile = require(path.join(process.cwd(), inputPath, file))
-      Object.keys(snapshotsInFile).forEach((snapshotName) => {
-        const cleaned = snapshotsInFile[snapshotName]
-          .replace(/Object /g, '')
-          .replace(/Array /g, '')
-          .replace(/\n/g, '')
-        let message = JSON.parse(RJSON.transform(cleaned))
-        if (!message.attachments) {
-          message = { attachments: [message] }
+      // Figure out what the changes are since the last time we committed to this branch
+      let newBase
+      compareData.commits.reverse().forEach((commit, index) => {
+        if (commit.committer.id.toString() === process.env.ACTOR_ID) {
+          newBase = compareData.commits.reverse()[index - 1].sha
         }
-
-        const folderName = `${outputPath}/${match[1]}/${match[2]}`
-        snapshots[`${folderName}/${snapshotName}.png`] = message
       })
+
+      compareData = (await context.github.repos.compareCommits({
+        ...context.repo(),
+        base: newBase,
+        head: head.ref
+      })).data
     }
-  })
 
-  console.log(`Fetching ${Object.keys(snapshots).length} screenshot${Object.keys(snapshots).length === 1 ? '' : 's'} from message builder`)
-  const browser = await puppeteer.launch({ headless: true })
-  // for (const snapshotFileName of Object.keys(snapshots)) {
-  await Promise.all(
-    Object.keys(snapshots).map(async (snapshotFileName) => {
-      await limiter.schedule(
-        getandSaveScreenshot,
-        snapshots,
-        snapshotFileName,
-        browser
+    const contents = (await context.github.repos.getContent({
+      ...context.repo(),
+      path: 'package.json',
+      ref: head.ref
+    })).data
+    const packageJSON = JSON.parse(base64.decode(contents.content))
+    const snappydooSettings = packageJSON.snappydoo
+    const modifiedSnapshotFiles = await getModifiedSnapshotFiles(
+      compareData,
+      snappydooSettings
+    )
+    console.log(modifiedSnapshotFiles)
+
+    if (snappydooSettings.limit) {
+      limiter.changeSettings(snappydooSettings.limit)
+    }
+
+    const snapshots = {}
+
+    await Promise.all(
+      modifiedSnapshotFiles.map(async file => {
+        const response = await context.github.repos.getContent({
+          ...context.repo(),
+          path: file.filename,
+          ref: head.ref
+        })
+        const snapshotFileContent = base64.decode(response.data.content)
+        const individualSnapshotsInFile = _eval(snapshotFileContent)
+
+        Object.keys(individualSnapshotsInFile).forEach(snapshotName => {
+          const cleaned = individualSnapshotsInFile[snapshotName]
+            .replace(/Object /g, '')
+            .replace(/Array /g, '')
+            .replace(/\n/g, '')
+          let message = JSON.parse(RJSON.transform(cleaned))
+          if (!message.attachments) {
+            message = { attachments: [message] }
+          }
+
+          const match = new RegExp(
+            '(.*)/?__snapshots__/(.*).test.(js|ts).snap'
+          ).exec(file.filename)
+
+          const relativePath = match[1].replace(snappydooSettings.in, '')
+          const folderName = `${snappydooSettings.out}${relativePath}${
+            match[2]
+          }`
+          snapshots[`${folderName}/${snapshotName}.png`] = message
+        })
+      })
+    )
+
+    const browser = await puppeteer.launch({ headless: true })
+    const screenshots = await Promise.all(
+      Object.keys(snapshots).map(async snapshotFileName =>
+        limiter.schedule(getScreenshot, snapshots, snapshotFileName, browser)
       )
-    })
-  )
-  await browser.close()
-  console.log(`Snappydoo done in ${(new Date() - start) / 1000}s. Created ${fileCreationCounter} file${fileCreationCounter === 1 ? '' : 's'}`)
+    )
+    await browser.close()
+    await Promise.all(
+      screenshots.map(async screenshot => {
+        let blobSha
+        try {
+          const { data } = await context.github.repos.getContent({
+            ...context.repo(),
+            path: screenshot.snapshotFileName,
+            ref: head.ref
+          })
+          blobSha = data.sha
+        } catch (e) {
+          console.log(e)
+        }
+        if (blobSha) {
+          return context.github.repos.updateFile({
+            ...context.repo(),
+            path: screenshot.snapshotFileName,
+            message: `Update snappydoo image: ${screenshot.snapshotFileName}`,
+            content: screenshot.renderedImage,
+            sha: blobSha,
+            branch: head.ref
+          })
+        }
+        return context.github.repos.createFile({
+          ...context.repo(),
+          path: screenshot.snapshotFileName,
+          message: `Create snappydoo image: ${screenshot.snapshotFileName}`,
+          content: screenshot.renderedImage,
+          branch: head.ref
+        })
+      })
+    )
+  })
 }
-
-main()

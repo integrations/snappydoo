@@ -1,0 +1,444 @@
+{
+  "url":
+    "https://api.github.com/repos/wilhelmklopp/slack/compare/master...wilhelmklopp-patch-2",
+  "html_url":
+    "https://github.com/wilhelmklopp/slack/compare/master...wilhelmklopp-patch-2",
+  "permalink_url":
+    "https://github.com/wilhelmklopp/slack/compare/wilhelmklopp:d27405e...wilhelmklopp:1d913f9",
+  "diff_url":
+    "https://github.com/wilhelmklopp/slack/compare/master...wilhelmklopp-patch-2.diff",
+  "patch_url":
+    "https://github.com/wilhelmklopp/slack/compare/master...wilhelmklopp-patch-2.patch",
+  "base_commit": {
+    "sha": "d27405e52601d5ecb88ed0135d19d5fa3eb541f4",
+    "commit": {
+      "author": {
+        "name": "Brandon Keepers",
+        "email": "bkeepers@github.com",
+        "date": "2018-04-18T19:26:05Z"
+      },
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2018-04-18T19:26:05Z"
+      },
+      "message":
+        "Merge pull request #543 from integrations/permanent-slack-errors\n\nHandle permanent Slack errors",
+      "tree": {
+        "sha": "028b376ed7e590389dc5005f2dc5a1ff7bd38bb4",
+        "url":
+          "https://api.github.com/repos/wilhelmklopp/slack/git/trees/028b376ed7e590389dc5005f2dc5a1ff7bd38bb4"
+      },
+      "url":
+        "https://api.github.com/repos/wilhelmklopp/slack/git/commits/d27405e52601d5ecb88ed0135d19d5fa3eb541f4",
+      "comment_count": 0,
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "signature":
+          "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJa15vNCRBK7hj4Ov3rIwAAdHIIADxyWy6pqu8hZGymJD1MthGR\n1M3kl9mRbeggO0K6hkCvM88gpfmzWoRnFnfj/vkDNPCS3yVK4/0lQ7VeGH5IXnpz\nTUkda6E3Zvyp0Uy2UXFbQQxvDmG/jYFqEXVwSYIJEu0hGorKP0CppuoOSpXCXoxo\nh7ktf578mzwKKn24ixFkfbCJQjIkceaCyqz2Vt6d1QWGZ8VhcLnpUsI5qQ53+s0G\nvDHT8p6326gFIS42NHzXtoIGcxZ/GaI7OSrnvGoWLoykMvyMZ6G8BRg+g/cfKKla\nhwT2Q66oXSM7OlGmcN/afcgxBHO6AuPunuSwqqTy0b6QJ6xkagiQmOjji96azUk=\n=2Ged\n-----END PGP SIGNATURE-----\n",
+        "payload":
+          "tree 028b376ed7e590389dc5005f2dc5a1ff7bd38bb4\nparent 7c5c985aca020ac436cc5b513153bd0668556611\nparent 834bcda1b4dfc2e7b87a3357de8890dd66e1b325\nauthor Brandon Keepers <bkeepers@github.com> 1524079565 -0500\ncommitter GitHub <noreply@github.com> 1524079565 -0500\n\nMerge pull request #543 from integrations/permanent-slack-errors\n\nHandle permanent Slack errors"
+      }
+    },
+    "url":
+      "https://api.github.com/repos/wilhelmklopp/slack/commits/d27405e52601d5ecb88ed0135d19d5fa3eb541f4",
+    "html_url":
+      "https://github.com/wilhelmklopp/slack/commit/d27405e52601d5ecb88ed0135d19d5fa3eb541f4",
+    "comments_url":
+      "https://api.github.com/repos/wilhelmklopp/slack/commits/d27405e52601d5ecb88ed0135d19d5fa3eb541f4/comments",
+    "author": {
+      "login": "bkeepers",
+      "id": 173,
+      "avatar_url": "https://avatars0.githubusercontent.com/u/173?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bkeepers",
+      "html_url": "https://github.com/bkeepers",
+      "followers_url": "https://api.github.com/users/bkeepers/followers",
+      "following_url":
+        "https://api.github.com/users/bkeepers/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bkeepers/gists{/gist_id}",
+      "starred_url":
+        "https://api.github.com/users/bkeepers/starred{/owner}{/repo}",
+      "subscriptions_url":
+        "https://api.github.com/users/bkeepers/subscriptions",
+      "organizations_url": "https://api.github.com/users/bkeepers/orgs",
+      "repos_url": "https://api.github.com/users/bkeepers/repos",
+      "events_url": "https://api.github.com/users/bkeepers/events{/privacy}",
+      "received_events_url":
+        "https://api.github.com/users/bkeepers/received_events",
+      "type": "User",
+      "site_admin": true
+    },
+    "committer": {
+      "login": "web-flow",
+      "id": 19864447,
+      "avatar_url": "https://avatars3.githubusercontent.com/u/19864447?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/web-flow",
+      "html_url": "https://github.com/web-flow",
+      "followers_url": "https://api.github.com/users/web-flow/followers",
+      "following_url":
+        "https://api.github.com/users/web-flow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+      "starred_url":
+        "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+      "subscriptions_url":
+        "https://api.github.com/users/web-flow/subscriptions",
+      "organizations_url": "https://api.github.com/users/web-flow/orgs",
+      "repos_url": "https://api.github.com/users/web-flow/repos",
+      "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+      "received_events_url":
+        "https://api.github.com/users/web-flow/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "7c5c985aca020ac436cc5b513153bd0668556611",
+        "url":
+          "https://api.github.com/repos/wilhelmklopp/slack/commits/7c5c985aca020ac436cc5b513153bd0668556611",
+        "html_url":
+          "https://github.com/wilhelmklopp/slack/commit/7c5c985aca020ac436cc5b513153bd0668556611"
+      },
+      {
+        "sha": "834bcda1b4dfc2e7b87a3357de8890dd66e1b325",
+        "url":
+          "https://api.github.com/repos/wilhelmklopp/slack/commits/834bcda1b4dfc2e7b87a3357de8890dd66e1b325",
+        "html_url":
+          "https://github.com/wilhelmklopp/slack/commit/834bcda1b4dfc2e7b87a3357de8890dd66e1b325"
+      }
+    ]
+  },
+  "merge_base_commit": {
+    "sha": "d27405e52601d5ecb88ed0135d19d5fa3eb541f4",
+    "commit": {
+      "author": {
+        "name": "Brandon Keepers",
+        "email": "bkeepers@github.com",
+        "date": "2018-04-18T19:26:05Z"
+      },
+      "committer": {
+        "name": "GitHub",
+        "email": "noreply@github.com",
+        "date": "2018-04-18T19:26:05Z"
+      },
+      "message":
+        "Merge pull request #543 from integrations/permanent-slack-errors\n\nHandle permanent Slack errors",
+      "tree": {
+        "sha": "028b376ed7e590389dc5005f2dc5a1ff7bd38bb4",
+        "url":
+          "https://api.github.com/repos/wilhelmklopp/slack/git/trees/028b376ed7e590389dc5005f2dc5a1ff7bd38bb4"
+      },
+      "url":
+        "https://api.github.com/repos/wilhelmklopp/slack/git/commits/d27405e52601d5ecb88ed0135d19d5fa3eb541f4",
+      "comment_count": 0,
+      "verification": {
+        "verified": true,
+        "reason": "valid",
+        "signature":
+          "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJa15vNCRBK7hj4Ov3rIwAAdHIIADxyWy6pqu8hZGymJD1MthGR\n1M3kl9mRbeggO0K6hkCvM88gpfmzWoRnFnfj/vkDNPCS3yVK4/0lQ7VeGH5IXnpz\nTUkda6E3Zvyp0Uy2UXFbQQxvDmG/jYFqEXVwSYIJEu0hGorKP0CppuoOSpXCXoxo\nh7ktf578mzwKKn24ixFkfbCJQjIkceaCyqz2Vt6d1QWGZ8VhcLnpUsI5qQ53+s0G\nvDHT8p6326gFIS42NHzXtoIGcxZ/GaI7OSrnvGoWLoykMvyMZ6G8BRg+g/cfKKla\nhwT2Q66oXSM7OlGmcN/afcgxBHO6AuPunuSwqqTy0b6QJ6xkagiQmOjji96azUk=\n=2Ged\n-----END PGP SIGNATURE-----\n",
+        "payload":
+          "tree 028b376ed7e590389dc5005f2dc5a1ff7bd38bb4\nparent 7c5c985aca020ac436cc5b513153bd0668556611\nparent 834bcda1b4dfc2e7b87a3357de8890dd66e1b325\nauthor Brandon Keepers <bkeepers@github.com> 1524079565 -0500\ncommitter GitHub <noreply@github.com> 1524079565 -0500\n\nMerge pull request #543 from integrations/permanent-slack-errors\n\nHandle permanent Slack errors"
+      }
+    },
+    "url":
+      "https://api.github.com/repos/wilhelmklopp/slack/commits/d27405e52601d5ecb88ed0135d19d5fa3eb541f4",
+    "html_url":
+      "https://github.com/wilhelmklopp/slack/commit/d27405e52601d5ecb88ed0135d19d5fa3eb541f4",
+    "comments_url":
+      "https://api.github.com/repos/wilhelmklopp/slack/commits/d27405e52601d5ecb88ed0135d19d5fa3eb541f4/comments",
+    "author": {
+      "login": "bkeepers",
+      "id": 173,
+      "avatar_url": "https://avatars0.githubusercontent.com/u/173?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/bkeepers",
+      "html_url": "https://github.com/bkeepers",
+      "followers_url": "https://api.github.com/users/bkeepers/followers",
+      "following_url":
+        "https://api.github.com/users/bkeepers/following{/other_user}",
+      "gists_url": "https://api.github.com/users/bkeepers/gists{/gist_id}",
+      "starred_url":
+        "https://api.github.com/users/bkeepers/starred{/owner}{/repo}",
+      "subscriptions_url":
+        "https://api.github.com/users/bkeepers/subscriptions",
+      "organizations_url": "https://api.github.com/users/bkeepers/orgs",
+      "repos_url": "https://api.github.com/users/bkeepers/repos",
+      "events_url": "https://api.github.com/users/bkeepers/events{/privacy}",
+      "received_events_url":
+        "https://api.github.com/users/bkeepers/received_events",
+      "type": "User",
+      "site_admin": true
+    },
+    "committer": {
+      "login": "web-flow",
+      "id": 19864447,
+      "avatar_url": "https://avatars3.githubusercontent.com/u/19864447?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/web-flow",
+      "html_url": "https://github.com/web-flow",
+      "followers_url": "https://api.github.com/users/web-flow/followers",
+      "following_url":
+        "https://api.github.com/users/web-flow/following{/other_user}",
+      "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+      "starred_url":
+        "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+      "subscriptions_url":
+        "https://api.github.com/users/web-flow/subscriptions",
+      "organizations_url": "https://api.github.com/users/web-flow/orgs",
+      "repos_url": "https://api.github.com/users/web-flow/repos",
+      "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+      "received_events_url":
+        "https://api.github.com/users/web-flow/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "parents": [
+      {
+        "sha": "7c5c985aca020ac436cc5b513153bd0668556611",
+        "url":
+          "https://api.github.com/repos/wilhelmklopp/slack/commits/7c5c985aca020ac436cc5b513153bd0668556611",
+        "html_url":
+          "https://github.com/wilhelmklopp/slack/commit/7c5c985aca020ac436cc5b513153bd0668556611"
+      },
+      {
+        "sha": "834bcda1b4dfc2e7b87a3357de8890dd66e1b325",
+        "url":
+          "https://api.github.com/repos/wilhelmklopp/slack/commits/834bcda1b4dfc2e7b87a3357de8890dd66e1b325",
+        "html_url":
+          "https://github.com/wilhelmklopp/slack/commit/834bcda1b4dfc2e7b87a3357de8890dd66e1b325"
+      }
+    ]
+  },
+  "status": "ahead",
+  "ahead_by": 2,
+  "behind_by": 0,
+  "total_commits": 2,
+  "commits": [
+    {
+      "sha": "72332bd22a8eeb1ce1769aea7fba4077a4180ebb",
+      "commit": {
+        "author": {
+          "name": "Wilhelm Klopp",
+          "email": "wilhelmklopp@users.noreply.github.com",
+          "date": "2018-04-22T13:58:40Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2018-04-22T13:58:40Z"
+        },
+        "message": "hiiii",
+        "tree": {
+          "sha": "fea27e898468eb74b657586fdbcc02d9ff0dd066",
+          "url":
+            "https://api.github.com/repos/wilhelmklopp/slack/git/trees/fea27e898468eb74b657586fdbcc02d9ff0dd066"
+        },
+        "url":
+          "https://api.github.com/repos/wilhelmklopp/slack/git/commits/72332bd22a8eeb1ce1769aea7fba4077a4180ebb",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature":
+            "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJa3JUQCRBK7hj4Ov3rIwAAdHIIADIkqMeiPXnCHSHjoq37jJjg\nGXmWYVC4yVUVEdPrRCITWzINr/FMp3cnbhxzGNrOsZagDY4znhqataFkWrbSEXo3\nesMwu3myBw9RBU4GDtrd3731ZAnQ1jkHcpnnUcIqi981dFn9vNL4CS2YfjCp54GO\nYWCSTNurZMy66UZXZ7XhMbWY4loqv7uDNNO/7tur9bo3tKd1hrIh3It3kfxQgxTu\nq0cEHJMtssGi23KnrTaUpQH4DMjgCm1aNwELsKRT1Kg7GJunwnQQ76o0a5Ud/6Vy\nzpAPE4bXeicOl49D9/hVZuitCLPqpv1DnrUoBW13zWaKMvxctZa8d9aJ+KpkMZY=\n=F7rx\n-----END PGP SIGNATURE-----\n",
+          "payload":
+            "tree fea27e898468eb74b657586fdbcc02d9ff0dd066\nparent d27405e52601d5ecb88ed0135d19d5fa3eb541f4\nauthor Wilhelm Klopp <wilhelmklopp@users.noreply.github.com> 1524405520 +0100\ncommitter GitHub <noreply@github.com> 1524405520 +0100\n\nhiiii"
+        }
+      },
+      "url":
+        "https://api.github.com/repos/wilhelmklopp/slack/commits/72332bd22a8eeb1ce1769aea7fba4077a4180ebb",
+      "html_url":
+        "https://github.com/wilhelmklopp/slack/commit/72332bd22a8eeb1ce1769aea7fba4077a4180ebb",
+      "comments_url":
+        "https://api.github.com/repos/wilhelmklopp/slack/commits/72332bd22a8eeb1ce1769aea7fba4077a4180ebb/comments",
+      "author": {
+        "login": "wilhelmklopp",
+        "id": 7718702,
+        "avatar_url": "https://avatars1.githubusercontent.com/u/7718702?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/wilhelmklopp",
+        "html_url": "https://github.com/wilhelmklopp",
+        "followers_url": "https://api.github.com/users/wilhelmklopp/followers",
+        "following_url":
+          "https://api.github.com/users/wilhelmklopp/following{/other_user}",
+        "gists_url":
+          "https://api.github.com/users/wilhelmklopp/gists{/gist_id}",
+        "starred_url":
+          "https://api.github.com/users/wilhelmklopp/starred{/owner}{/repo}",
+        "subscriptions_url":
+          "https://api.github.com/users/wilhelmklopp/subscriptions",
+        "organizations_url": "https://api.github.com/users/wilhelmklopp/orgs",
+        "repos_url": "https://api.github.com/users/wilhelmklopp/repos",
+        "events_url":
+          "https://api.github.com/users/wilhelmklopp/events{/privacy}",
+        "received_events_url":
+          "https://api.github.com/users/wilhelmklopp/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "web-flow",
+        "id": 19864447,
+        "avatar_url": "https://avatars3.githubusercontent.com/u/19864447?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/web-flow",
+        "html_url": "https://github.com/web-flow",
+        "followers_url": "https://api.github.com/users/web-flow/followers",
+        "following_url":
+          "https://api.github.com/users/web-flow/following{/other_user}",
+        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+        "starred_url":
+          "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+        "subscriptions_url":
+          "https://api.github.com/users/web-flow/subscriptions",
+        "organizations_url": "https://api.github.com/users/web-flow/orgs",
+        "repos_url": "https://api.github.com/users/web-flow/repos",
+        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+        "received_events_url":
+          "https://api.github.com/users/web-flow/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "d27405e52601d5ecb88ed0135d19d5fa3eb541f4",
+          "url":
+            "https://api.github.com/repos/wilhelmklopp/slack/commits/d27405e52601d5ecb88ed0135d19d5fa3eb541f4",
+          "html_url":
+            "https://github.com/wilhelmklopp/slack/commit/d27405e52601d5ecb88ed0135d19d5fa3eb541f4"
+        }
+      ]
+    },
+    {
+      "sha": "1d913f918e029a5303bcc20e02de7d72a2302390",
+      "commit": {
+        "author": {
+          "name": "Wilhelm Klopp",
+          "email": "wilhelmklopp@users.noreply.github.com",
+          "date": "2018-04-22T15:04:56Z"
+        },
+        "committer": {
+          "name": "GitHub",
+          "email": "noreply@github.com",
+          "date": "2018-04-22T15:04:56Z"
+        },
+        "message": "update color",
+        "tree": {
+          "sha": "2eecd9870f31d0a1f658446559aa70ae8e443194",
+          "url":
+            "https://api.github.com/repos/wilhelmklopp/slack/git/trees/2eecd9870f31d0a1f658446559aa70ae8e443194"
+        },
+        "url":
+          "https://api.github.com/repos/wilhelmklopp/slack/git/commits/1d913f918e029a5303bcc20e02de7d72a2302390",
+        "comment_count": 0,
+        "verification": {
+          "verified": true,
+          "reason": "valid",
+          "signature":
+            "-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJa3KSYCRBK7hj4Ov3rIwAAdHIIAGiulhYdHofxGvBh0vAi6rD3\nI2Icx8usbhPf+f8f9Mj3fv2NvEP/5miQHQMoOT1F45CpYPSXVdFP1jAVFsvC4XA+\nR8ESPkzbyrX9Bitd9ivReFgG3i+p98Fec3cTSRlZTk/Qs0nqZE62xHk/o084H80F\nym3YkAPKqBfahbi5A5GfXeW1A9fcVbCSpJIwW0loHXOHHY+XFU8Fqo9dmopypP1z\nFyQ/ILxq2cxdgAmJsrkhWevI3tOmrmOSFqO3m88Jq2Dk261njChqrvw7NJ/ek0yg\nBXKaGSy1NoUhpg2qMIfWyD99Kn9AFTi4qoHmwwwJD93E8INHPD4VJr1WNSt0Xds=\n=hPFw\n-----END PGP SIGNATURE-----\n",
+          "payload":
+            "tree 2eecd9870f31d0a1f658446559aa70ae8e443194\nparent 72332bd22a8eeb1ce1769aea7fba4077a4180ebb\nauthor Wilhelm Klopp <wilhelmklopp@users.noreply.github.com> 1524409496 +0100\ncommitter GitHub <noreply@github.com> 1524409496 +0100\n\nupdate color"
+        }
+      },
+      "url":
+        "https://api.github.com/repos/wilhelmklopp/slack/commits/1d913f918e029a5303bcc20e02de7d72a2302390",
+      "html_url":
+        "https://github.com/wilhelmklopp/slack/commit/1d913f918e029a5303bcc20e02de7d72a2302390",
+      "comments_url":
+        "https://api.github.com/repos/wilhelmklopp/slack/commits/1d913f918e029a5303bcc20e02de7d72a2302390/comments",
+      "author": {
+        "login": "wilhelmklopp",
+        "id": 7718702,
+        "avatar_url": "https://avatars1.githubusercontent.com/u/7718702?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/wilhelmklopp",
+        "html_url": "https://github.com/wilhelmklopp",
+        "followers_url": "https://api.github.com/users/wilhelmklopp/followers",
+        "following_url":
+          "https://api.github.com/users/wilhelmklopp/following{/other_user}",
+        "gists_url":
+          "https://api.github.com/users/wilhelmklopp/gists{/gist_id}",
+        "starred_url":
+          "https://api.github.com/users/wilhelmklopp/starred{/owner}{/repo}",
+        "subscriptions_url":
+          "https://api.github.com/users/wilhelmklopp/subscriptions",
+        "organizations_url": "https://api.github.com/users/wilhelmklopp/orgs",
+        "repos_url": "https://api.github.com/users/wilhelmklopp/repos",
+        "events_url":
+          "https://api.github.com/users/wilhelmklopp/events{/privacy}",
+        "received_events_url":
+          "https://api.github.com/users/wilhelmklopp/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "committer": {
+        "login": "web-flow",
+        "id": 19864447,
+        "avatar_url": "https://avatars3.githubusercontent.com/u/19864447?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/web-flow",
+        "html_url": "https://github.com/web-flow",
+        "followers_url": "https://api.github.com/users/web-flow/followers",
+        "following_url":
+          "https://api.github.com/users/web-flow/following{/other_user}",
+        "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+        "starred_url":
+          "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+        "subscriptions_url":
+          "https://api.github.com/users/web-flow/subscriptions",
+        "organizations_url": "https://api.github.com/users/web-flow/orgs",
+        "repos_url": "https://api.github.com/users/web-flow/repos",
+        "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+        "received_events_url":
+          "https://api.github.com/users/web-flow/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "parents": [
+        {
+          "sha": "72332bd22a8eeb1ce1769aea7fba4077a4180ebb",
+          "url":
+            "https://api.github.com/repos/wilhelmklopp/slack/commits/72332bd22a8eeb1ce1769aea7fba4077a4180ebb",
+          "html_url":
+            "https://github.com/wilhelmklopp/slack/commit/72332bd22a8eeb1ce1769aea7fba4077a4180ebb"
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "sha": "75e84b626c87ca9e225f2c30e41fa6aa88da4903",
+      "filename": "README.md",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url":
+        "https://github.com/wilhelmklopp/slack/blob/1d913f918e029a5303bcc20e02de7d72a2302390/README.md",
+      "raw_url":
+        "https://github.com/wilhelmklopp/slack/raw/1d913f918e029a5303bcc20e02de7d72a2302390/README.md",
+      "contents_url":
+        "https://api.github.com/repos/wilhelmklopp/slack/contents/README.md?ref=1d913f918e029a5303bcc20e02de7d72a2302390",
+      "patch":
+        "@@ -1,5 +1,6 @@\n # GitHub + Slack Integration\n ## About\n+hiiiiii\n \n The GitHub integration for Slack gives you and your teams full visibility into your GitHub projects right in Slack channels, where you can generate ideas, triage issues and collaborate with other teams to move projects forward. This integration is an open source project, built and maintained by GitHub.\n "
+    },
+    {
+      "sha": "4df9f078c0476905e64efb7b9ea1c433566e9b94",
+      "filename": "test/messages/__snapshots__/Repository.test.js.snap",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url":
+        "https://github.com/wilhelmklopp/slack/blob/1d913f918e029a5303bcc20e02de7d72a2302390/test/messages/__snapshots__/Repository.test.js.snap",
+      "raw_url":
+        "https://github.com/wilhelmklopp/slack/raw/1d913f918e029a5303bcc20e02de7d72a2302390/test/messages/__snapshots__/Repository.test.js.snap",
+      "contents_url":
+        "https://api.github.com/repos/wilhelmklopp/slack/contents/test/messages/__snapshots__/Repository.test.js.snap?ref=1d913f918e029a5303bcc20e02de7d72a2302390",
+      "patch":
+        "@@ -2,7 +2,7 @@\n \n exports[`Repository rendering works for condensed unfurls 1`] = `\n Object {\n-  \"color\": \"#24292f\",\n+  \"color\": \"#ffffff\",\n   \"fallback\": \"bkeepers/dotenv\",\n   \"fields\": Array [\n     Object {"
+    }
+  ]
+}
