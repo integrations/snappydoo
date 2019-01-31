@@ -178,6 +178,7 @@ module.exports = app => {
         })
       })
     )
+    console.log('snapshots', snapshots)
 
     const browser = await puppeteer.launch({ headless: true })
     const screenshots = await Promise.all(
@@ -188,6 +189,7 @@ module.exports = app => {
     await browser.close()
     await Promise.all(
       screenshots.map(async screenshot => {
+        console.log('path of file about to be created/updated', screenshot.snapshotFileName)
         let blobSha
         try {
           const { data } = await context.github.repos.getContent({
@@ -218,5 +220,70 @@ module.exports = app => {
         })
       })
     )
+  })
+
+  app.on('issues.opened', async context => {
+    const { issue, repository } = context.payload;
+
+    if (issue.author_association != 'OWNER') {
+      return;
+    }
+
+    // If the issue title or body doesn't include "@snappydoo redo all" we abort
+    if (![issue.title, issue.body].map(text => text.includes('@snappydoo redo all')).some(bool => bool)) {
+      return;
+    }
+    console.log('TIME TO REDO all the snapshots!!!')
+
+    const defaultBranch = await context.github.gitdata.getReference({ ...context.repo(), ref: `heads/${repository.default_branch}`})
+    console.log('default branch', defaultBranch)
+
+    const branchName = "snappydoo/redo-all-snapshots"
+
+    let existingBranch;
+    try {
+      existingBranch = await context.github.gitdata.getReference({ ...context.repo(), ref: `heads/${branchName}` })
+    } catch (err) {
+      if (err.code != 404) {
+        throw err
+      }
+    } finally {
+      if (existingBranch) {
+        console.log(`Deleting existing ${branchName} branch`)
+        await context.github.gitdata.deleteReference({ ...context.repo(), ref: existingBranch.data.ref.replace("refs/", "") })
+      }
+    }
+
+    await context.github.gitdata.createReference({
+      ...context.repo(),
+      ref: `refs/heads/${branchName}`,
+      sha: defaultBranch.data.object.sha
+    })
+
+    console.log('Getting tree of all relevant files')
+    const tree = await context.github.gitdata.getTree({
+      ...context.repo(),
+      sha: defaultBranch.data.object.sha,
+      recursive: 1,
+    })
+    console.log(tree.data)
+
+    // await Promise.all()
+
+    // await context.github.repos.createFile({
+    //   ...context.repo(),
+    //   branch: branchName,
+    // })
+
+
+
+    await context.github.pullRequests.create({
+      ...context.repo(),
+      title: "Redoing all snappydoo snapshots",
+      body: `As instructed in ${issue.html_url}`,
+      head: branchName,
+      base: repository.default_branch
+    })
+
   })
 }
