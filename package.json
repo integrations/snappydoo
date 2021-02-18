@@ -28,11 +28,11 @@
   "homepage": "https://github.com/github-slack/snappydoo#readme",
   "dependencies": {
     "bottleneck": "^1.16.0",
-    "commander": "^2.12.2",
-    "fs-path": "0.0.23",
-    "puppeteer": "^1.13.0",
-    "recursive-readdir": "^2.2.1",
-    "relaxed-json": "^1.0.1"
+    "commander": "^2.20.3",
+    "fs-path": "0.0.25",
+    "puppeteer": "^1.20.0",
+    "recursive-readdir": "^2.2.2",
+    "relaxed-json": "^1.0.3"
   },
   "devDependencies": {
     "standard": "^10.0.3"
